@@ -1,0 +1,73 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/ext_power.h>
+
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+// ------------------------------------------------------------------------------------------------------------
+// |   1   |  2  |  3  |  4   |  5   |  6   |                   |  7   |  8    |  9    |  0   | [ {   |  ] }  |
+// |  TAB  |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U    |  I    |  O   |   P   | - _   |
+// |  CAPS |  A  |  S  |  D   |  F   |  G   |                   |  H   |  J    |  K    |  L   |   ;   |   '   |
+// | SHIFT |  Z  |  X  |  C   |  V   |  B   |  LOWER |  | RAISE |  N   |  M    |  ,    |  .   |   /   | SHIFT |
+//                     | CTRL  | ALT  | GUI |  BSPC  |  | SPACE | GUI | ALT    | ENTER |
+            display-name = "Base";
+            bindings = <
+&kp LBKT  &kp N1 &kp N2 &kp N3   &kp N4   &kp N5                     &kp N6 &kp N7   &kp N8    &kp N9  &kp N0      &kp RBKT
+&kp TAB   &kp Q  &kp W  &kp E    &kp R    &kp T                      &kp Y  &kp U    &kp I     &kp O   &kp P       &kp MINUS
+&kp CAPS  &kp A  &kp S  &kp D    &kp F    &kp G                      &kp H  &kp J    &kp K     &kp L   &kp SEMI    &kp SQT
+&kp LSHFT &kp Z  &kp X  &kp C    &kp V    &kp B  &mo 1        &mo 2  &kp N  &kp M    &kp COMMA &kp DOT &kp FSLH    &kp RSHFT
+          &kp LCTRL     &kp LALT   &kp LGUI      &kp BSPC     &kp SPACE     &kp RGUI   &kp RALT   &kp RET
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        lower_layer {
+// ------------------------------------------------------------------------------------------------------------
+// | ESC   |     |     |      |      |      |                   | TAB  |   7   |   8   |  9   | DIV   | EQUAL |
+// | TAB   |     | UP  |      |      |PG UP |                   |      |   4   |   5   |  6   | MULT  |  \ |  |
+// |       |LEFT |DOWN |RIGHT |      |PG DN |                   |      |   1   |   2   |  3   | SUBT  |       |
+// | SHIFT |     |     |      |      |      |        |  |       |      |   0   |       |      | ADD   | GRAVE |
+//                     | CTRL | ALT  | GUI  | BSPC   |  |   §   | GUI | ALT    | CTRL  |
+            display-name = "Lower";
+            bindings = <
+&kp ESC          &trans           &trans        &trans       &trans     &trans                             &kp TAB     &kp N7       &kp N8       &kp N9        &kp SLASH     &kp EQUAL
+&kp TAB          &trans           &kp UP        &trans       &trans     &kp PG_UP                          &kp BSLH      &kp N4       &kp N5       &kp N6        &kp STAR      &trans
+&trans           &kp LEFT         &kp DOWN      &kp RIGHT    &trans     &kp PG_DN                          &kp BSLH      &kp N1       &kp N2       &kp N3        &kp MINUS     &trans
+&kp LSHFT        &trans           &trans        &trans       &trans     &trans    &trans         &trans    &kp LSHFT   &kp N0       &trans       &trans        &kp PLUS      &kp GRAVE
+                                                &kp LCTRL    &kp LALT   &kp LGUI   &kp BSPC    &kp N6      &kp RGUI    &kp RALT     &kp RET
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        raise_layer {
+// ------------------------------------------------------------------------------------------------------------
+// |  ESC  |      |                 |      |       |       |                   |        F1          |    F2      |     F3      |      F4      |      F5       |        F6          |
+// |  TAB  |      |  UP             |      |       | PG_UP |                   |        F7          |    F8      |     F9      |      F10     |      F11      |        F12         |
+// |       | LEFT | DOWN            | RIGHT|       | PG_DN |                   |                    |            |             |              |               |                    |
+// | SHIFT |      |                 |      |       |       |        |  |       |    BT1     |     BT2     |      BT3     |      BT4      |        BT5         |   Clear BT     
+//                                    | CTRL  | ALT  | GUI | BSPC   |  |   §   | GUI | ALT    | ENTER |
+            display-name = "Raise";
+            bindings = <
+&kp ESC    &trans         &trans          &trans         &trans       &trans                            &kp F1     &kp F2         &kp F3          &kp F4        &kp F5        &kp F6
+&kp TAB    &trans         &kp UP          &trans         &trans       &kp PG_UP                         &kp F7     &kp F8         &kp F9          &kp F10       &kp F11       &kp F12
+&trans     &kp LEFT       &kp DOWN        &kp RIGHT      &trans       &kp PG_DN                         &trans     &trans         &trans          &trans        &trans        &trans
+&kp LSHFT  &trans         &trans          &trans         &trans       &trans    &trans        &trans    &bt BT_SEL 0   &bt BT_SEL 1    &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &bt BT_CLR
+                                          &kp LCTRL      &kp LALT     &kp LGUI    &kp BSPC  &kp N6      &kp RGUI  &kp RALT  &kp RET
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+    };
+};
